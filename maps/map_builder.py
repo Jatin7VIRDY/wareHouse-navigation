@@ -54,10 +54,46 @@ def edit_grid(grid,start,goal):
       print("Invalid Position")
   return grid
 
-def get_start_goal(rows,cols):
-  print("Enter START Position (x,y): ")
-  start = tuple(map(int, input().split()))
-  print("Enter GOAL position (x y): ")
-  goal = tuple(map(int, input().split()))
-  return start, goal
+def valid_move(grid,pos):
+  x,y = pos
+  rows = len(grid)
+  cols = len(grid[0])
+
+  directions = [(0,-1),(0,1),(-1,0),(1,0)]
+
+  for dx,dy in directions:
+    nx = x + dx 
+    ny = y + dy 
+    if 0<=nx<rows  and 0<=ny < cols:
+      if grid[nx][ny]!=-1:
+        return True
+  return False
+
+def get_start_goal(rows,cols,grid):
+  while True:
+    print("Enter START Position (x,y): ")
+    start = tuple(map(int, input().split()))
+    print("Enter GOAL position (x y): ")
+    goal = tuple(map(int, input().split()))
+    x,y = start
+    gx,gy = goal
+    if not(0<=x<rows and 0<=y<cols):
+      print("Start Position Out of Bounds")
+      continue
+    if not(0<=gx<rows and 0<=gy<cols):
+      print("End Position Out of Bounds")
+      continue
+    if grid[x][y]==-1:
+      print("Start Position is on Obstacle, Please TRY AGAIN!")
+      continue
+    if grid[gx][gy]==-1:
+      print("End Position is on Obstacle, Please TRY AGAIN!")
+      continue
+    if not valid_move(grid,start):
+      print("Start Position is blocked all sides")
+      continue
+    if start == goal:
+      print("Start and End Position cannot be Same")
+      continue
+    return start, goal
 

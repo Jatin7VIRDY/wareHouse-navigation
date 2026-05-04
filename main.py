@@ -1,6 +1,7 @@
 from env.grid_env import WareHouseEnv
 from maps.map_builder import *
 from utils import print_grid
+from algorithms.a_star import a_star
 import random
 
 rows = int(input("Enter number of rows: "))
@@ -21,7 +22,7 @@ else:
 print("Initial Grid: ")
 print_grid(grid)
 
-start,goal = get_start_goal(rows,cols)
+start,goal = get_start_goal(rows,cols,grid)
 
 edit = input("Do u want to edit the grid? (Y/N)")
 if edit.lower()=="y":
@@ -31,17 +32,14 @@ print("Final Grid: ")
 print_grid(grid)
 
 env = WareHouseEnv(grid,start,goal)
-state = env.reset()
 
-print("Simulation Start: ")
-print_grid(env.grid,env.agent_pos,env.goal)
+path,cost = a_star(grid,start,goal)
+if path:
+  print(f"Path found! Cost: {cost}")
+  print("Path: ", path)
 
+  print("Grid with shortest path:")
+  print_grid(grid,path=path,agent=start,goal=goal)
+else:
+  print("No path found!")
 
-for _ in range(20):
-  action = random.choice([0,1,2,3])
-  state,reward,done = env.step(action)
-  print(f"State: {state}, Reward: {reward}")
-  print_grid(env.grid,env.agent_pos,env.goal)
-  if done:
-    print("GOAL REACHED!!")
-    break
