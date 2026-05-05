@@ -45,11 +45,11 @@ class WareHouseEnv:
       return self.agent_pos, -1 ,False
 
     if self.grid[new_x][new_y]==-1:
-      return self.agent_pos,-5,False
+      return self.agent_pos,-10,False
     
     self.agent_pos = (new_x,new_y)
 
     if self.agent_pos == self.goal:
-      return self.agent_pos,10,True
+      return self.agent_pos,50,True
     
     return self.agent_pos,-1,False
