@@ -1,4 +1,14 @@
 import random
+def generate_difficulty_map(rows,cols,level):
+  if level == "easy":
+    obstacle_prob = 0.1
+  elif level == "medium":
+    obstacle_prob = 0.25
+  elif level == "hard":
+    obstacle_prob = 0.4
+  else:
+    obstacle_prob = 0.2
+  return generate_random_grid(rows, cols, obstacle_prob)
 
 def create_empty_grid(rows,cols):
   return [[0 for _ in range(cols)] for _ in range(rows)]
